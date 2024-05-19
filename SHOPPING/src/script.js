@@ -1,11 +1,5 @@
-let usuarios = [];
+let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
 
-const usuario = {
-    username: "carlos",
-    password: "1234"
-};
-
-usuarios.push(usuario);
 
 function login() {
     const useradminname = "admin";
@@ -14,7 +8,7 @@ function login() {
     const passwordinput = document.getElementById('passwordInput');
     const password = passwordinput.value.trim();
     const name = nameInput.value.trim();
-
+    console.log(usuarios.length)
     if (name === '') {
         alert('Ingrese su nombre!');
     } else if(password === ''){
@@ -26,18 +20,29 @@ function login() {
         alert('Bienvenido usuario!' + name);
         window.location.href = 'user.html';
     }
-
-    // esto es un usuario que se crea esto se debe cambiar cuando se realize lo de crear usuarios
 }
 
-function doubleNumber() {
-    const number = parseFloat(numberInput.value);
+function validarFormulario() {
+    event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+    const name = document.getElementById("usuario").value.trim();
+    const contrasena = document.getElementById("contrasena").value;
+    const confirmarContrasena = document.getElementById("confirmar_contrasena").value;
+    const errorConfirmar = document.getElementById("error-confirmar");
 
-    if (isNaN(number)) {
-        alert('Ingresar un valor numerico!');
-    } else {
-        const outputDiv = document.getElementById('output');
-        const doubledNumber = number * 2;
-        outputDiv.textContent = `Doble de ${number} es ${doubledNumber}`;
+    if (contrasena !== confirmarContrasena) {
+        errorConfirmar.innerHTML = "Las contraseñas no coinciden";
+    } else if (usuarios.some(usuario => usuario.username === name)) {
+        alert("El nombre de usuario ya está en uso");
+    }else {
+        const nuevoUsuario = {
+            username: name,
+            password: contrasena
+        };
+        console.log(nuevoUsuario);
+        usuarios.push(nuevoUsuario);
+        console.log(usuarios.length);
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        alert("Formulario enviado correctamente!");
+        window.location.href = 'login.html';
     }
 }
