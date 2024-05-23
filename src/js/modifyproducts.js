@@ -18,8 +18,8 @@ function mostrarProductoAModificar() {
                 <input type="number" id="productPrice" name="productPrice" value="${producto.price}" required>
             </div>
             <div>
-                <label for="cuantity">Cantidad del Producto</label>
-                <input type="number" id="cuantity" name="cuantity" value="${producto.cuantity}" required>
+                <label for="quantity">Cantidad del Producto</label>
+                <input type="number" id="quantity" name="quantity" value="${producto.quantity}" required>
             </div>
             <div>
                 <label for="productDescription">Descripción del Producto</label>
@@ -46,7 +46,7 @@ function getProductByName(name) {
 function guardarCambios() {
     const nombre = document.getElementById("productName").value;
     const precio = document.getElementById("productPrice").value;
-    const cantidad = document.getElementById("cuantity").value;
+    const cantidad = document.getElementById("quantity").value;
     const descripcion = document.getElementById("productDescription").value;
     const foto = document.getElementById("productImageLink").value;
 
@@ -58,7 +58,7 @@ function guardarCambios() {
 
     // Actualizar los datos del producto
     productos[index].price = precio;
-    productos[index].cuantity = cantidad;
+    productos[index].quantity = cantidad;
     productos[index].description = descripcion;
     productos[index].image = foto;
 

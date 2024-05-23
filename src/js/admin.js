@@ -14,7 +14,7 @@ function mostrarProductos() {
                 <h2>${producto.name}</h2>
                 <h4>${producto.description}</h4>
                 <h4>${producto.price}</h4>
-                <h4>${producto.cuantity}</h4>
+                <h4>${producto.quantity}</h4>
                 <img src="${producto.image}" alt="${producto.name}">
                 <button onclick="redirigirModificar('${producto.name}')">Modificar producto</button>
                 <button onclick="eliminarProducto('${producto.name}')">Eliminar producto</button>
@@ -31,11 +31,11 @@ function validarFormulario() {
     event.preventDefault(); // Evitar que el formulario se envíe automáticamente
     const nombre = document.getElementById("productName").value.trim();
     const precio = document.getElementById("productPrice").value;
-    const  cantidad= document.getElementById("cuantity").value;
+    const  cantidad= document.getElementById("quantity").value;
     const descripcion = document.getElementById("productDescription").value.trim();
     const foto = document.getElementById("productImageLink").value;
     const errorprecio = document.getElementById("error-price");
-    const errorcantidad = document.getElementById("error-cuantity");
+    const errorcantidad = document.getElementById("error-quantity");
 
     if (precio <= 0) {
         errorprecio.innerHTML = "Los productos deben de tener un precio mayor a 0";
@@ -47,7 +47,7 @@ function validarFormulario() {
             const nuevoProducto = {
                 name: nombre,
                 price: precio,
-                cuantity: cantidad,
+                quantity: cantidad,
                 description: descripcion,
                 image: foto
             };
@@ -58,9 +58,7 @@ function validarFormulario() {
     window.location.href = 'admin.html';
 }
 
-function modificarProducto(name) {
 
-}
 
 // Ejemplo de implementación de las funciones modificarProducto y eliminarProducto
 function eliminarProducto(name) {

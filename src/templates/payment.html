@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago</title>
+    <link rel="stylesheet" href="..\css/styles.css">
+</head>
+<body>
+<h1>Ingrese sus datos</h1>
+
+<div class="container">
+    <input type="number" id="tarjetNumber" placeholder="Numero de tarjeta:">
+</div>
+
+<div class="container">
+    <input type="text" id="tarjetName" placeholder="Nombre en la tarjeta:">
+</div>
+
+<div class="container">
+    <input type="date" id="expitarionDate" placeholder="Fecha de caducidad:">
+</div>
+
+<div class="container">
+    <input type="number" id="cvv" placeholder="CVV:">
+</div>
+
+<div class="container">
+    <button onclick="comprar()">Pagar</button>
+</div>
+
+<script src="..\js\user.js"></script>
+</body>
+</html>
