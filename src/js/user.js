@@ -27,7 +27,7 @@ function mostrarProductos() {
 
 function mostrarCarrito() {
     const div = document.getElementById('shoppingCart');
-    //div.innerHTML = '';
+    div.innerHTML = '';
 
     carrito.forEach(producto => {
         const productDiv = document.createElement('div');
@@ -42,11 +42,20 @@ function mostrarCarrito() {
         `;
         div.appendChild(productDiv);
     });
+    if(!estaVacio(carrito)){
+        const allButton = document.createElement('button');
+        allButton.className = 'totalPayment';
+        allButton.textContent = 'Pagar todo';
+        allButton.onclick = function() {
+            window.location.href = `payment.html?name=${encodeURIComponent('all')}`;
+        };
+        div.appendChild(allButton);
+    }
 }
 
 function agregarCarrito(name) {
     const product = productos.find(producto => producto.name === name);
-    const quantity = document.getElementById("quantity-" + name).value;
+    const quantity = parseInt(document.getElementById("quantity-" + name).value);
     const nuevoProducto = {
         name: product.name,
         price: product.price,
@@ -69,13 +78,56 @@ function eliminarProductoCarrito(name) {
     // Actualizar el localStorage
     localStorage.setItem('carrito', JSON.stringify(carrito));
 
-    // Actualizar el DOM
-    mostrarCarrito();
+    // Obtener la URL de la página actual
+    let url = window.location.pathname;
+    let filename = url.substring(url.lastIndexOf('/')+1);
+
+    // Actualizar el DOM solo si la página actual es 'user.html'
+    if(filename == 'user.html') {
+        mostrarCarrito();
+    }
 }
 
-function comprar(){
+function pagoCompleto(){
+    for(const orderIndex in carrito){
+        console.log(orderIndex);
+        const order = carrito[orderIndex];
+        const product = productos.find(producto => producto.name === order.name);
+        console.log(order);
+        console.log(product);
+        if(order.quantityAdded > product.quantity){
+            if(!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")){
+                window.location.href = 'user.html';
+                return
+            }
+        }
+        const index = productos.findIndex(producto => producto.name === order.name);
+        
+        if (index === -1) {
+            if(!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")){
+                window.location.href = 'user.html';
+                return;
+            }
+        }else{
+            productos[index].quantity = product.quantity - order.quantityAdded;
+        }
+        
+    }
+    for(const orderIndex in carrito){
+        const order = carrito[orderIndex];
+        eliminarProductoCarrito(order.name);
+    }
+    localStorage.setItem('productos', JSON.stringify(productos));
+    window.location.href = 'user.html';
+}
+
+function pagar(){
     const params = new URLSearchParams(window.location.search);
     const name = params.get('name');
+    if(name === 'all'){
+        pagoCompleto();
+        return;
+    }
     const order = carrito.find(producto => producto.name === name);
     const product = productos.find(producto => producto.name === name);
     if(order.quantityAdded > product.quantity){
@@ -94,4 +146,11 @@ function comprar(){
 
     eliminarProductoCarrito(name);
     window.location.href = 'user.html';
+}
+
+function estaVacio(obj) {
+    if (Object.keys(obj).length === 0) {
+        return true;
+    }
+    return false;
 }
