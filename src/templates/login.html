@@ -4,24 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Universidad ICESI</title>
-    <link rel="stylesheet" href="..\css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <link rel="stylesheet" href="../css/login_style.css">
 </head>
 <body>
-<h1>Login</h1>
+    <div class="left-part">
+        <div class="login-container"> 
+            <div class="login-second-container">
+                <div class="login">
+                    <img src="https://www.ccit.org.co/wp-content/uploads/mercadolibre-logo.png" alt="Logo">
 
-<div class="container">
-    <input type="text" id="nameInput" placeholder="Ingrese su nombre">
-</div>
+                    <fieldset class="clearfix">
+                        <div class="username">
+                            <span><ion-icon name="person"></ion-icon></span>
+                            <input type="text" name="username" id="nameInput" class="form-control" placeholder="Nombre de usuario">
+                        </div>
 
-<div class="container">
-    <input type="password" id="passwordInput" placeholder="Ingrese su contraseña ">
-    <button onclick="login()">iniciar sesion</button>
-</div>
+                        <div class="password">
+                            <span><ion-icon name="lock-closed"></ion-icon></span>
+                            <input type="password" name="password" id="passwordInput" class="form-control" placeholder="Contraseña">
+                        </div>
 
-<div class="container">
-    <button onclick="window.location.href = 'createuser.html';">Crear usuario</button>
-</div>
+                        <button class="btn btn-primary d-block" onclick="login()">Iniciar sesión</button>
+                        <button class="btn btn-secondary d-block mt-2" onclick="window.location.href = 'createuser.html';">Crear usuario</button>
 
-<script src="..\js\authentication.js"></script>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="..\js\authentication.js"></script>
 </body>
 </html>
