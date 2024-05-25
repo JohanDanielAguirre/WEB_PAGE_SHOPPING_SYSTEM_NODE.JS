@@ -1,0 +1,20 @@
+.SuperiorVar {
+    background-color: #0655fe; /* Ejemplo: color de fondo gris claro */
+    height: 3.5em;
+    width: auto;
+}
+
+.SuperiorVar img{
+    max-width: 3.5em;
+    max-height: 100%;
+}
+
+.TitlePage{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.container{
+    width: 50%;
+    height: auto;
+}
