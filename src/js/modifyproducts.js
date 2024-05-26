@@ -13,24 +13,24 @@ function mostrarProductoAModificar() {
     const form = `
         <form id="productForm">
             <input type="hidden" id="productName" name="productName" value="${producto.name}" readonly>
-            <div>
+            <div class="form-group">
                 <label for="productPrice">Precio del Producto</label>
-                <input type="number" id="productPrice" name="productPrice" value="${producto.price}" required>
+                <input type="number" class="form-control" id="productPrice" name="productPrice" value="${producto.price}" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="quantity">Cantidad del Producto</label>
-                <input type="number" id="quantity" name="quantity" value="${producto.quantity}" required>
+                <input type="number" class="form-control" id="quantity" name="quantity" value="${producto.quantity}" required>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="productDescription">Descripción del Producto</label>
-                <textarea id="productDescription" name="productDescription" rows="4" required>${producto.description}</textarea>
+                <textarea class="form-control" id="productDescription" name="productDescription" rows="4" required>${producto.description}</textarea>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="productImageLink">Link a una Imagen</label>
-                <input type="url" id="productImageLink" name="productImageLink" value="${producto.image}" required>
+                <input type="url" class="form-control" id="productImageLink" name="productImageLink" value="${producto.image}" required>
             </div>
-            <div>
-                <button type="button" onclick="guardarCambios()">Guardar Cambios</button>
+            <div class="form-group">
+                <button type="button" class="btn btn-primary" onclick="guardarCambios()">Guardar Cambios</button>
             </div>
         </form>
     `;
@@ -66,3 +66,4 @@ function guardarCambios() {
     localStorage.setItem('productos', JSON.stringify(productos));
     window.location.href = 'admin.html';
 }
+
