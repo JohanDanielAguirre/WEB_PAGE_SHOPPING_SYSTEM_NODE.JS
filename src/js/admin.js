@@ -3,25 +3,30 @@ document.addEventListener('DOMContentLoaded', mostrarProductos);
 
 // Ejemplo de implementación de la función mostrarProductos
 function mostrarProductos() {
-
     const container = document.getElementById('productContainer');
-    container.innerHTML = ''; // Limpiar cualquier contenido previo
+    container.innerHTML = '';
 
     productos.forEach(producto => {
         const productDiv = document.createElement('div');
-        productDiv.className = 'product-box';
+        productDiv.className = 'col-md-4 mb-4';
         productDiv.innerHTML = `
-                <h2>${producto.name}</h2>
-                <h4>${producto.description}</h4>
-                <h4>${producto.price}</h4>
-                <h4>${producto.quantity}</h4>
-                <img src="${producto.image}" alt="${producto.name}">
-                <button onclick="redirigirModificar('${producto.name}')">Modificar producto</button>
-                <button onclick="eliminarProducto('${producto.name}')">Eliminar producto</button>
-            `;
+            <div class="card">
+                <img src="${producto.image}" alt="${producto.name}" class="card-img-top" style="width: 200px; height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">${producto.name}</h5>
+                    <p class="card-text">${producto.description}</p>
+                    <p class="card-text">Precio: $${producto.price}</p>
+                    <p class="card-text">Cantidad: ${producto.quantity}</p>
+                    <button onclick="redirigirModificar('${producto.name}')" class="btn btn-primary">Modificar producto</button>
+                    <button onclick="eliminarProducto('${producto.name}')" class="btn btn-danger">Eliminar producto</button>
+                </div>
+            </div>
+        `;
         container.appendChild(productDiv);
     });
 }
+
+
 
 function redirigirModificar(name) {
     // Redirigir a la página de modificación con el nombre del producto como parámetro en la URL
