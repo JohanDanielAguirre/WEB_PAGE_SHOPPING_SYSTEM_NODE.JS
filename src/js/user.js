@@ -3,24 +3,27 @@ let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 document.addEventListener('DOMContentLoaded', mostrarProductos);
 document.addEventListener('DOMContentLoaded', mostrarCarrito);
 
-// Ejemplo de implementación de la función mostrarProductos
 function mostrarProductos() {
-
     const container = document.getElementById('productContainer');
-    //container.innerHTML = ''; // Limpiar cualquier contenido previo
+    container.className = 'row'; // Añade la clase 'row' al contenedor
 
     productos.forEach(producto => {
         const productDiv = document.createElement('div');
-        productDiv.className = 'product-box';
+        productDiv.className = 'product-box card mb-4 col-md-4'; // Añade la clase 'col-md-4' para crear una grilla de 3 columnas
+        productDiv.style.marginRight = '10px';
+        productDiv.style.marginLeft = '10px';
+        productDiv.style.marginBottom = '10px';
         productDiv.innerHTML = `
-                <h2>${producto.name}</h2>
-                <h4>${producto.description}</h4>
-                <h4>${producto.price}</h4>
-                <h4>${producto.quantity}</h4>
-                <img src="${producto.image}" alt="${producto.name}">
-                <input id = "quantity-${producto.name}" type="number" min="1" max="${producto.quantity}">
-                <button onclick="agregarCarrito('${producto.name}')">Añadir a la cesta</button>
-            `;
+            <div class="card-body">
+                <h2 class="card-title">${producto.name}</h2>
+                <p class="card-text">${producto.description}</p>
+                <p class="card-text">$${producto.price}</p>
+                <p class="card-text">Disponible: ${producto.quantity}</p>
+                <img class="card-img-top" src="${producto.image}" alt="${producto.name}" style="width: 100px; height: 100px;">
+                <input id = "quantity-${producto.name}" type="number" min="1" max="${producto.quantity}" class="form-control mt-2">
+                <button onclick="agregarCarrito('${producto.name}')" class="btn btn-primary mt-2">Añadir a la cesta</button>
+            </div>
+        `;
         container.appendChild(productDiv);
     });
 }
@@ -28,23 +31,35 @@ function mostrarProductos() {
 function mostrarCarrito() {
     const div = document.getElementById('shoppingCart');
     div.innerHTML = '';
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'row'; 
 
     carrito.forEach(producto => {
-        const productDiv = document.createElement('div');
-        productDiv.className = 'div-' + producto.name;
-        productDiv.innerHTML = `
-            <a>${producto.name}</a>
-            <a>${producto.price}</a>
-            <a>${producto.quantityAdded}</a>
-            <img src="${producto.image}" alt="${producto.name}"></img>
-            <button onclick="eliminarProductoCarrito('${producto.name}')">Eliminar</button>
-            <button onclick="window.location.href = 'payment.html?name=${encodeURIComponent(producto.name)}';">Comprar</button>
-        `;
-        div.appendChild(productDiv);
-    });
+    const productDiv = document.createElement('div');
+    productDiv.className = 'div-' + producto.name + ' card mb-4 col-md-4'; 
+    productDiv.style.maxWidth = '200px'; // Establece un ancho máximo
+    productDiv.style.maxHeight = '400px'; // Establece una altura máxima
+    productDiv.style.marginRight = '10px';
+    productDiv.style.marginLeft = '10px';
+    productDiv.style.marginBottom = '10px';
+    productDiv.innerHTML = `
+        <div class="card-body">
+            <h4>${producto.name}</h4>
+            <p>$${producto.price}</p>
+            <p>Cantidad: ${producto.quantityAdded}</p>
+            <img src="${producto.image}" alt="${producto.name}" style="width: 100px; height: 100px;">
+            <button onclick="eliminarProductoCarrito('${producto.name}')" class="btn btn-danger mt-2">Eliminar</button>
+            <button onclick="window.location.href = 'payment.html?name=${encodeURIComponent(producto.name)}';" class="btn btn-success mt-2">Comprar</button>
+        </div>
+    `;
+    rowDiv.appendChild(productDiv);
+});
+
+    
+    div.appendChild(rowDiv);
     if(!estaVacio(carrito)){
         const allButton = document.createElement('button');
-        allButton.className = 'totalPayment';
+        allButton.className = 'totalPayment btn btn-primary mt-2';
         allButton.textContent = 'Pagar todo';
         allButton.onclick = function() {
             window.location.href = `payment.html?name=${encodeURIComponent('all')}`;
@@ -52,6 +67,7 @@ function mostrarCarrito() {
         div.appendChild(allButton);
     }
 }
+
 
 function agregarCarrito(name) {
     const product = productos.find(producto => producto.name === name);
