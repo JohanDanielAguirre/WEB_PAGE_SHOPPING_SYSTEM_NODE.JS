@@ -1,4 +1,6 @@
-document.addEventListener('DOMContentLoaded', mostrarFactura);
+document.addEventListener('DOMContentLoaded', function() {
+    mostrarFactura();
+});
 
 function mostrarFactura() {
     const invoiceContainer = document.getElementById('invoiceContainer');
@@ -34,4 +36,35 @@ function mostrarFactura() {
         </div>
     `;
     invoiceContainer.appendChild(totalDiv);
+}
+
+function generarPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    const facturas = JSON.parse(localStorage.getItem('factura')) || [];
+    if (facturas.length === 0) return;
+
+    doc.setFontSize(20);
+    doc.text('Factura', 10, 10);
+
+    let yOffset = 20;
+
+    facturas.forEach(producto => {
+        doc.setFontSize(12);
+        doc.text(`Producto: ${producto.name}`, 10, yOffset);
+        yOffset += 10;
+        doc.text(`Descripción: ${producto.description}`, 10, yOffset);
+        yOffset += 10;
+        doc.text(`Precio: $${producto.price}`, 10, yOffset);
+        yOffset += 10;
+        doc.text(`Cantidad: ${producto.quantityAdded}`, 10, yOffset);
+        yOffset += 10;
+    });
+
+    const total = facturas.reduce((acc, producto) => acc + producto.price * producto.quantityAdded, 0);
+    doc.setFontSize(16);
+    doc.text(`Total: $${total.toFixed(2)}`, 10, yOffset);
+
+    doc.save('factura.pdf');
 }
