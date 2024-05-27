@@ -105,63 +105,72 @@ function eliminarProductoCarrito(name) {
 }
 
 function pagoCompleto(){
+    const facturas = [];
     for(const orderIndex in carrito){
-        console.log(orderIndex);
         const order = carrito[orderIndex];
         const product = productos.find(producto => producto.name === order.name);
-        console.log(order);
-        console.log(product);
+
         if(order.quantityAdded > product.quantity){
             if(!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")){
                 window.location.href = 'user.html';
-                return
+                return;
             }
         }
+
         const index = productos.findIndex(producto => producto.name === order.name);
-        
         if (index === -1) {
             if(!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")){
                 window.location.href = 'user.html';
                 return;
             }
-        }else{
+        } else {
             productos[index].quantity = product.quantity - order.quantityAdded;
+            facturas.push(order);
         }
-        
     }
-    for(const orderIndex in carrito){
-        const order = carrito[orderIndex];
-        eliminarProductoCarrito(order.name);
-    }
-    localStorage.setItem('productos', JSON.stringify(productos));
-    window.location.href = 'user.html';
-}
 
+    localStorage.setItem('factura', JSON.stringify(facturas));
+    localStorage.setItem('productos', JSON.stringify(productos));
+
+    carrito = [];
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    window.location.href = 'invoice.html';
+}
 function pagar(){
     const params = new URLSearchParams(window.location.search);
     const name = params.get('name');
+    const facturas = [];
+
     if(name === 'all'){
         pagoCompleto();
         return;
     }
+
     const order = carrito.find(producto => producto.name === name);
     const product = productos.find(producto => producto.name === name);
+
     if(order.quantityAdded > product.quantity){
         alert("No hay existencias suficientes!");
         return;
-    } 
+    }
+
     const index = productos.findIndex(producto => producto.name === name);
-    
+
     if (index === -1) {
         console.error(`El producto "${name}" ha sido retirado de stock.`);
         return;
     }
-    productos[index].quantity = product.quantity - order.quantityAdded;
 
+    productos[index].quantity = product.quantity - order.quantityAdded;
+    facturas.push(order);
+
+    localStorage.setItem('factura', JSON.stringify(facturas));
     localStorage.setItem('productos', JSON.stringify(productos));
 
     eliminarProductoCarrito(name);
-    window.location.href = 'user.html';
+
+    window.location.href = 'invoice.html';
 }
 
 function estaVacio(obj) {
