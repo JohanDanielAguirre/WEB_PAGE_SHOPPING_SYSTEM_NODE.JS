@@ -96,6 +96,10 @@ function mostrarHistorial(){
 function agregarCarrito(name) {
     const product = productos.find(producto => producto.name === name);
     const quantity = parseInt(document.getElementById("quantity-" + name).value);
+    if(isNaN(quantity)){
+        alert("Seleccione una cantidad valida!")
+        return;
+    }
     const nuevoProducto = {
         name: product.name,
         price: product.price,
@@ -149,24 +153,26 @@ function eliminarProductoCarrito(name, quantity) {
 function pagoCompleto(){
     const facturas = [];
     for(const orderIndex in carrito){
-        console.log(orderIndex);
         const order = carrito[orderIndex];
-        const product = productos.find(producto => producto.name === order.name);
-        console.log(order);
-        console.log(product);
-        if (order.quantityAdded > product.quantity) {
-            if (!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")) {
-                window.location.href = 'user.html';
-                return;
-            }
-        }
-
         const index = productos.findIndex(producto => producto.name === order.name);
         if (index === -1) {
             if (!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")) {
                 window.location.href = 'user.html';
                 return;
             }
+            alert("El producto " + order.name + " se eliminará del carrito y no será tomado en cuenta en el pago"),
+            eliminarProductoCarrito(order.name, order.quantityAdded);
+        }
+
+        const product = productos[index];
+        
+        if (order.quantityAdded > product.quantity) {
+            if (!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")) {
+                window.location.href = 'user.html';
+                return;
+            }
+            alert("El producto " + order.name + " se eliminará del carrito y no será tomado en cuenta en el pago"),
+            eliminarProductoCarrito(order.name, order.quantityAdded);
         } else {
             productos[index].quantity = product.quantity - order.quantityAdded;
             facturas.push(order);
@@ -176,7 +182,6 @@ function pagoCompleto(){
     for(const orderIndex in carrito){
         const order = carrito[orderIndex];
         agregarHistorial(order.name, order.quantityAdded);
-        eliminarProductoCarrito(order.name, order.quantityAdded);
     }
     localStorage.setItem('productos', JSON.stringify(productos));
 
@@ -185,6 +190,7 @@ function pagoCompleto(){
 
     window.location.href = 'invoice.html';
 }
+
 function pagar(){
     const params = new URLSearchParams(window.location.search);
     const name = params.get('name');
