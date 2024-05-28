@@ -84,7 +84,7 @@ function mostrarHistorial(){
             <div class="card-body">
                 <h2 class="card-title">${producto.name}</h2>
                 <p class="card-text">$${producto.price}</p>
-                <p class="card-text">$${producto.dateSold}</p>
+                <p class="card-text">${producto.dateSold}</p>
                 <p class="card-text">Catidad Comprada: ${producto.quantitySold}</p>
                 <img class="card-img-top" src="${producto.image}" alt="${producto.name}" style="width: 100px; height: 100px;">
             </div>
@@ -113,6 +113,7 @@ function agregarCarrito(name) {
 function agregarHistorial(name, quantity) {
     const product = carrito.find(producto => (producto.quantityAdded == quantity && producto.name == name));
     console.log(product);
+    const currentDate = new Date();
     const historyElement = {
         name: product.name,
         price: product.price,
@@ -120,7 +121,7 @@ function agregarHistorial(name, quantity) {
         description: product.description,
         image: product.image,
         quantitySold: product.quantityAdded,
-        dateSold: Date.now()
+        dateSold: currentDate.toDateString()
     };
     historial.push(historyElement);
     localStorage.setItem('historial', JSON.stringify(historial));
