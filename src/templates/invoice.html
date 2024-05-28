@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Factura</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Factura</h1>
+  <div id="invoiceContainer" class="mt-3"></div>
+  <button onclick="window.location.href='user.html'" class="btn btn-primary mt-3">Volver a la tienda</button>
+  <button onclick="generarPDF()" class="btn btn-success mt-3">Descargar PDF</button>
+</div>
+
+<script src="../js/invoice.js"></script>
+</body>
+</html>

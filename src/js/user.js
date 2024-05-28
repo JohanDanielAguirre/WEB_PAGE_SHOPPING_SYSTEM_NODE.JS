@@ -146,8 +146,9 @@ function eliminarProductoCarrito(name, quantity) {
     }
 }
 
-function pagoCompleto() {
-    for (const orderIndex in carrito) {
+function pagoCompleto(){
+    const facturas = [];
+    for(const orderIndex in carrito){
         console.log(orderIndex);
         const order = carrito[orderIndex];
         const product = productos.find(producto => producto.name === order.name);
@@ -156,11 +157,11 @@ function pagoCompleto() {
         if (order.quantityAdded > product.quantity) {
             if (!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")) {
                 window.location.href = 'user.html';
-                return
+                return;
             }
         }
-        const index = productos.findIndex(producto => producto.name === order.name);
 
+        const index = productos.findIndex(producto => producto.name === order.name);
         if (index === -1) {
             if (!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")) {
                 window.location.href = 'user.html';
@@ -168,25 +169,32 @@ function pagoCompleto() {
             }
         } else {
             productos[index].quantity = product.quantity - order.quantityAdded;
+            facturas.push(order);
         }
-
+        
     }
-    for (const orderIndex in carrito) {
+    for(const orderIndex in carrito){
         const order = carrito[orderIndex];
         agregarHistorial(order.name, order.quantityAdded);
         eliminarProductoCarrito(order.name, order.quantityAdded);
     }
     localStorage.setItem('productos', JSON.stringify(productos));
-    window.location.href = 'user.html';
-}
 
-function pagar() {
+    carrito = [];
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    window.location.href = 'invoice.html';
+}
+function pagar(){
     const params = new URLSearchParams(window.location.search);
     const name = params.get('name');
-    if (name === 'all') {
+    const facturas = [];
+
+    if(name === 'all'){
         pagoCompleto();
         return;
     }
+
     const order = carrito.find(producto => producto.name === name);
     const index = productos.findIndex(producto => producto.name === name);
 
@@ -209,10 +217,12 @@ function pagar() {
     }*/
     product.quantity = product.quantity - order.quantityAdded;
 
+    localStorage.setItem('factura', JSON.stringify(facturas));
     localStorage.setItem('productos', JSON.stringify(productos));
     agregarHistorial(order.name, order.quantityAdded);
     eliminarProductoCarrito(name);
-    window.location.href = 'user.html';
+
+    window.location.href = 'invoice.html';
 }
 
 function estaVacio(obj) {
