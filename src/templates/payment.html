@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'baseUser.html' %}
+{% block content %}
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,42 +7,35 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/createproduct_style.css">
     </head>
-    <body>
-        <div class="SuperiorVar">
-            <img src="https://http2.mlstatic.com/static/org-img/homesnw/mercado-libre.png?v=2" alt="Logo de la empresa">
-            <!-- Otros elementos de la barra superior -->
+    <div class="container">
+        <h1 class="TitlePage">Pago de Producto</h1>
+
+        <h2>Ingrese sus datos</h2>
+
+        <div class="form-group">
+            <label for="tarjetNumber">Numero de tarjeta:</label>
+            <input type="number" class="form-control" id="tarjetNumber" placeholder="Numero de tarjeta:">
         </div>
 
-        <div class="container">
-            <h1 class="TitlePage">Pago de Producto</h1>
-
-            <h2>Ingrese sus datos</h2>
-
-            <div class="form-group">
-                <label for="tarjetNumber">Numero de tarjeta:</label>
-                <input type="number" class="form-control" id="tarjetNumber" placeholder="Numero de tarjeta:">
-            </div>
-
-            <div class="form-group">
-                <label for="tarjetName">Nombre en la tarjeta:</label>
-                <input type="text" class="form-control" id="tarjetName" placeholder="Nombre en la tarjeta:">
-            </div>
-
-            <div class="form-group">
-                <label for="expitarionDate">Fecha de caducidad:</label>
-                <input type="date" class="form-control" id="expitarionDate" placeholder="Fecha de caducidad:">
-            </div>
-
-            <div class="form-group">
-                <label for="cvv">CVV:</label>
-                <input type="number" class="form-control" id="cvv" placeholder="CVV:">
-            </div>
-
-            <div class="form-group">
-                <button class="btn btn-primary" onclick="pagar()">Pagar</button>
-            </div>
+        <div class="form-group">
+            <label for="tarjetName">Nombre en la tarjeta:</label>
+            <input type="text" class="form-control" id="tarjetName" placeholder="Nombre en la tarjeta:">
         </div>
 
-        <script src="..\js\user.js"></script>
-    </body>
-</html>
+        <div class="form-group">
+            <label for="expitarionDate">Fecha de caducidad:</label>
+            <input type="date" class="form-control" id="expitarionDate" placeholder="Fecha de caducidad:">
+        </div>
+
+        <div class="form-group">
+            <label for="cvv">CVV:</label>
+            <input type="number" class="form-control" id="cvv" placeholder="CVV:">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" onclick="pagar()">Pagar</button>
+        </div>
+    </div>
+
+    <script src="..\js\user.js"></script>
+{% endblock %}

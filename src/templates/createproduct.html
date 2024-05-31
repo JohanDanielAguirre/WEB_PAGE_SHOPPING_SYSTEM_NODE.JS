@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'baseAdmin.html' %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,42 +7,36 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/createproduct_style.css">
 </head>
-<body>
-    <div class="SuperiorVar">
-        <img src="https://http2.mlstatic.com/static/org-img/homesnw/mercado-libre.png?v=2" alt="Logo de la empresa">
-          <!-- Otros elementos de la barra superior -->
-    </div>
-    <div class="container">
-        <h1 class="TitlePage">Registro de Producto</h1>
-        <form id="productForm">
-            <div class="form-group">
-                <label for="productName">Nombre del Producto</label>
-                <input type="text" class="form-control" id="productName" name="productName" required>
-            </div>
-            <div class="form-group">
-                <label for="productPrice">Precio del Producto</label>
-                <input type="number" class="form-control" id="productPrice" name="productPrice" required>
-                <span id="error-price" class="error text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="quantity">Cantidad del producto</label>
-                <input type="number" class="form-control" id="quantity" name="quantity" required>
-                <span id="error-quantity" class="error text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label for="productDescription">Descripción del Producto</label>
-                <textarea class="form-control" id="productDescription" name="productDescription" rows="4" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="productImageLink">Link a una Imagen</label>
-                <input type="url" class="form-control" id="productImageLink" name="productImageLink" required>
-                <img id="imagePreview" src="" alt="Vista previa de la imagen" style="display:none;">
-            </div>
-            <div class="form-group">
-                <input type="button" class="btn btn-primary" value="Registrar" onclick="validarFormulario()">
-            </div>
-        </form>
-    </div>
-    <script src="../js/admin.js"></script>
-</body>
-</html>
+<div class="container">
+    <h1 class="TitlePage">Registro de Producto</h1>
+    <form id="productForm">
+        <div class="form-group">
+            <label for="productName">Nombre del Producto</label>
+            <input type="text" class="form-control" id="productName" name="productName" required>
+        </div>
+        <div class="form-group">
+            <label for="productPrice">Precio del Producto</label>
+            <input type="number" class="form-control" id="productPrice" name="productPrice" required>
+            <span id="error-price" class="error text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="quantity">Cantidad del producto</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" required>
+            <span id="error-quantity" class="error text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="productDescription">Descripción del Producto</label>
+            <textarea class="form-control" id="productDescription" name="productDescription" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="productImageLink">Link a una Imagen</label>
+            <input type="url" class="form-control" id="productImageLink" name="productImageLink" required>
+            <img id="imagePreview" src="" alt="Vista previa de la imagen" style="display:none;">
+        </div>
+        <div class="form-group">
+            <input type="button" class="btn btn-primary" value="Registrar" onclick="validarFormulario()">
+        </div>
+    </form>
+</div>
+<script src="../js/admin.js"></script>
+{% endblock %}

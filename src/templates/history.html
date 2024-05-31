@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'baseUser.html' %}
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,18 +7,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/createuser_style.css">
 </head>
-<body>
-    <div class="SuperiorVar">
-        <img src="https://http2.mlstatic.com/static/org-img/homesnw/mercado-libre.png?v=2" alt="Logo de la empresa">
-        <!-- Otros elementos de la barra superior -->
-        
-    </div>
+<div class="container">
+    <h1 class="mt-4 mb-4">Historial de Compras</h1>
+    <div id="historyContainer"></div>
+</div>
 
-    <div class="container">
-        <h1 class="mt-4 mb-4">Historial de Compras</h1>
-        <div id="historyContainer"></div>
-    </div>
-
-    <script src="../js/user.js"></script>
-</body>
-</html>
+<script src="../js/user.js"></script>
+{% endblock %}

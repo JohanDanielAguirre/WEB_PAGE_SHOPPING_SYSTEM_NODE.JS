@@ -17,7 +17,7 @@ function mostrarProductos() {
                     <p class="card-text">${producto.description}</p>
                     <p class="card-text">Precio: $${producto.price}</p>
                     <p class="card-text">Cantidad: ${producto.quantity}</p>
-                    <button onclick="redirigirModificar('${producto.name}')" class="btn btn-primary">Modificar producto</button>
+                    <button onclick="redirigirModificar('${producto.name}')" class="btn btn-primary mb-2">Modificar producto</button>
                     <button onclick="eliminarProducto('${producto.name}')" class="btn btn-danger">Eliminar producto</button>
                 </div>
             </div>
@@ -67,14 +67,17 @@ function validarFormulario() {
 
 // Ejemplo de implementación de las funciones modificarProducto y eliminarProducto
 function eliminarProducto(name) {
-    console.log(`Eliminar producto con nombre: ${name}`);
+    var confirmacion = confirm('Esta seguro de querer eliminar el producto '+name+ '?');
+    if(confirmacion){
+        console.log(`Eliminar producto con nombre: ${name}`);
 
-    // Eliminar producto del array
-    productos = productos.filter(producto => producto.name !== name);
+        // Eliminar producto del array
+        productos = productos.filter(producto => producto.name !== name);
 
-    // Actualizar el localStorage
-    localStorage.setItem('productos', JSON.stringify(productos));
+        // Actualizar el localStorage
+        localStorage.setItem('productos', JSON.stringify(productos));
 
-    // Actualizar el DOM
-    mostrarProductos();
+        // Actualizar el DOM
+        mostrarProductos();
+    }
 }
