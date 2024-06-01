@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', mostrarHistorial);
 
 function mostrarProductos() {
     const container = document.getElementById('productContainer');
-    container.className = 'row'; // Añade la clase 'row' al contenedor
+    container.className = 'row'; 
 
     productos.forEach(producto => {
         const productDiv = document.createElement('div');
-        productDiv.className = 'product-box card mb-4 col-md-4'; // Añade la clase 'col-md-4' para crear una grilla de 3 columnas
+        productDiv.className = 'product-box card mb-4 col-md-4'; 
         productDiv.style.marginRight = '10px';
         productDiv.style.marginLeft = '10px';
         productDiv.style.marginBottom = '10px';
@@ -154,35 +154,28 @@ function pagoCompleto(){
     const facturas = [];
     for(const orderIndex in carrito){
         const order = carrito[orderIndex];
-        const index = productos.findIndex(producto => producto.name === order.name);
-        if (index === -1) {
-            if (!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")) {
+        const product = productos.find(producto => producto.name === order.name);
+
+        if(order.quantityAdded > product.quantity){
+            if(!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")){
                 window.location.href = 'user.html';
                 return;
             }
-            alert("El producto " + order.name + " se eliminará del carrito y no será tomado en cuenta en el pago"),
-            eliminarProductoCarrito(order.name, order.quantityAdded);
         }
 
-        const product = productos[index];
-        
-        if (order.quantityAdded > product.quantity) {
-            if (!confirm("El producto " + order.name + " no tiene suficientes existencias! ¿Desea continuar?")) {
+        const index = productos.findIndex(producto => producto.name === order.name);
+        if (index === -1) {
+            if(!confirm("El producto " + order.name + " ha sido retirado de stock! ¿Desea continuar?")){
                 window.location.href = 'user.html';
                 return;
             }
-            alert("El producto " + order.name + " se eliminará del carrito y no será tomado en cuenta en el pago"),
-            eliminarProductoCarrito(order.name, order.quantityAdded);
         } else {
             productos[index].quantity = product.quantity - order.quantityAdded;
             facturas.push(order);
         }
-        
     }
-    for(const orderIndex in carrito){
-        const order = carrito[orderIndex];
-        agregarHistorial(order.name, order.quantityAdded);
-    }
+
+    localStorage.setItem('factura', JSON.stringify(facturas));
     localStorage.setItem('productos', JSON.stringify(productos));
 
     carrito = [];
@@ -202,6 +195,13 @@ function pagar(){
     }
 
     const order = carrito.find(producto => producto.name === name);
+    const product = productos.find(producto => producto.name === name);
+
+    if(order.quantityAdded > product.quantity){
+        alert("No hay existencias suficientes!");
+        return;
+    }
+
     const index = productos.findIndex(producto => producto.name === name);
 
     if (index === -1) {
@@ -209,23 +209,12 @@ function pagar(){
         return;
     }
 
-    product = productos[index];
-    //const product = productos.find(producto => producto.name === name);
-    if (order.quantityAdded > product.quantity) {
-        alert("No hay existencias suficientes!");
-        return;
-    }
-    /*const index = productos.findIndex(producto => producto.name === name);
-    
-    if (index === -1) {
-        console.error(`El producto "${name}" ha sido retirado de stock.`);
-        return;
-    }*/
-    product.quantity = product.quantity - order.quantityAdded;
+    productos[index].quantity = product.quantity - order.quantityAdded;
+    facturas.push(order);
 
     localStorage.setItem('factura', JSON.stringify(facturas));
     localStorage.setItem('productos', JSON.stringify(productos));
-    agregarHistorial(order.name, order.quantityAdded);
+
     eliminarProductoCarrito(name);
 
     window.location.href = 'invoice.html';
